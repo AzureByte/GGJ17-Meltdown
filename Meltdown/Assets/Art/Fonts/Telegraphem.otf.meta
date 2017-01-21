@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d01d662c9aea22345a9f9ff42124bb2a
+timeCreated: 1484991999
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Telegraphem
+  fontNames:
+  - Telegraphem
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
