@@ -15,12 +15,10 @@ public class Grapher1 : MonoBehaviour
     public static float _randomMaxShift;
     public static Color particleColor;
     public const float phaseExtension = 0;
-    [HideInInspector]
     public static float orgAmplitudeValue;
-    [HideInInspector]
     public static float orgFrequencyValue;
-    [HideInInspector]
     public static float orgPhaseValue;
+    public float a, freq, p;
     [HideInInspector]
     public static float orgNoiseValue;
     public enum FunctionOption
@@ -69,6 +67,9 @@ public class Grapher1 : MonoBehaviour
 
     void Update()
     {
+        a = _amplitude;
+        p = _phase;
+        freq = _frequency;
         if (currentResolution != resolution || points == null)
         {
             CreatePoints();
