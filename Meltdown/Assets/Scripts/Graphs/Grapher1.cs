@@ -8,9 +8,12 @@ public class Grapher1 : MonoBehaviour
     public static float _amplitude;
     public static float _frequency;
     public static float _phase;
+    public static float _noise = 0.5f;
+    public bool isSolution;
     public bool isPitchShift;
     public float randomMaxShift;
     public static float _randomMaxShift;
+    public static Color particleColor;
     public const float phaseExtension = 0;
     [HideInInspector]
     public static float orgAmplitudeValue;
@@ -18,16 +21,20 @@ public class Grapher1 : MonoBehaviour
     public static float orgFrequencyValue;
     [HideInInspector]
     public static float orgPhaseValue;
+    [HideInInspector]
+    public static float orgNoiseValue;
     public enum FunctionOption
     {
         Sine,
-        SinePitch
+        SinePitch,
+        SineSolution
     }
     private delegate float FunctionDelegate(float x);
     private FunctionDelegate[] functionDelegates = 
     {
 		Sine,
-        SinePitch
+        SinePitch,
+        SineSolution
 	};
     public FunctionOption function;
     [Range(10, 900)]
@@ -38,11 +45,13 @@ public class Grapher1 : MonoBehaviour
 
     void Start()
     {
+        particleColor = new Color(1f, 1f, 1f);
         _randomMaxShift = randomMaxShift;
         particleSystem = GetComponent<ParticleSystem>();
         orgAmplitudeValue = _amplitude;
         orgFrequencyValue = _frequency;
         orgPhaseValue = _phase;
+        orgNoiseValue = _noise;
     }
     private void CreatePoints()
     {
@@ -76,7 +85,10 @@ public class Grapher1 : MonoBehaviour
             points[i].position = p;
             //Color c = points[i].color;
             //c.g = p.y;
-            //points[i].color = c;
+            if (!isSolution)
+                points[i].color = particleColor;
+            else
+                points[i].color = Color.black;
         }
         particleSystem.SetParticles(points, points.Length);
     }
@@ -98,29 +110,16 @@ public class Grapher1 : MonoBehaviour
 
     private static float Sine(float x)
     {
-        return _amplitude * Mathf.Sin(2 * Mathf.PI * x * _frequency + _phase) + Random.Range(0f, _randomMaxShift);
+        return _amplitude * Mathf.Sin((2 * Mathf.PI * x * _frequency) + _phase) + Random.Range(0f, _noise);
         //return 0.5f + 0.5f * Mathf.Sin(2 * Mathf.PI * x + Time.timeSinceLevelLoad);
     }
     private static float SinePitch(float x)
     {
-        return _amplitude * Mathf.Sin(2 * Mathf.PI * x * _frequency + _phase + Mathf.PI / 2) + Random.Range(0f, _randomMaxShift);
+        return _amplitude * Mathf.Cos((2 * Mathf.PI * x * _frequency) + _phase) + Random.Range(0f, _noise);
         //return 0.5f + 0.5f * Mathf.Sin(2 * Mathf.PI * x + Time.timeSinceLevelLoad);
     }
-    private static float SquareWave(float x)
+    private static float SineSolution(float x)
     {
-        if (x > 0)
-        {
-
-        }
-        else if (x == 0)
-        {
-
-        }
-        else
-        {
-            
-        }
-
-        return 0f;
+        return orgAmplitudeValue * Mathf.Cos((2 * Mathf.PI * x * orgFrequencyValue) + orgPhaseValue);
     }
 }

@@ -14,8 +14,9 @@ public class KnobController : MonoBehaviour
         Amplitude,
         Frequency,
         Phase,
+        Noise
     }
-    public Grapher1 graph;
+    //public Grapher1 graph;
     public ControlValue controlValue;
     Vector3 startPos;
     Vector3 mousePos;
@@ -29,21 +30,30 @@ public class KnobController : MonoBehaviour
     private float rotateValue;
     //public float incrementValue;
     private float delta;
+    //public int[] clampValues;
+    //private int clampMin;
+    //private int clampMax;
     void Awake()
     {
+        //clampMin = clampValues[0];
+        //clampMax = clampValues[clampValues.Length - 1];
         switch (controlValue)
         {
             case ControlValue.Amplitude:
                 Grapher1._amplitude = setControlValue;
-                Debug.Log(Grapher1._amplitude);
+                Grapher1.orgAmplitudeValue = setControlValue;
                 break;
             case ControlValue.Frequency:
                 Grapher1._frequency = setControlValue;
-                Debug.Log(Grapher1._frequency);
+                Grapher1.orgFrequencyValue = setControlValue;
                 break;
             case ControlValue.Phase:
                 Grapher1._phase = setControlValue;
-                Debug.Log(Grapher1._phase);
+                Grapher1.orgPhaseValue = setControlValue;
+                break;
+            case ControlValue.Noise:
+                Grapher1._noise = setControlValue;
+                Grapher1.orgNoiseValue = setControlValue;
                 break;
         }
     }
@@ -78,13 +88,15 @@ public class KnobController : MonoBehaviour
                 Grapher1._frequency = Grapher1.orgFrequencyValue + controlDelta;
                 break;
             case ControlValue.Phase:
-                Grapher1._phase = Grapher1.orgFrequencyValue + controlDelta;
+                Grapher1._phase = Grapher1.orgPhaseValue + controlDelta;
+                break;
+            case ControlValue.Noise:
+                Grapher1._noise = Grapher1.orgNoiseValue + controlDelta;
                 break;
         }
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
-            //nearestValue = transform.localEulerAngles.x > 0 ? Mathf.Floor(transform.localEulerAngles.x / turnAngle) * turnAngle : Mathf.Ceil(transform.localEulerAngles.x / turnAngle) * turnAngle;
             nearestValue = Mathf.Floor(transform.localEulerAngles.x / turnAngle) * turnAngle;
             transform.localEulerAngles = new Vector3(nearestValue, transform.localEulerAngles.y, transform.localEulerAngles.z);
         }
@@ -93,7 +105,7 @@ public class KnobController : MonoBehaviour
             mousePos = Input.mousePosition;
             var dragDelta = (mousePos.x > startPos.x ? -1 : 1) * Vector3.Distance(mousePos, startPos);
             rotateValue = dragDelta * Time.deltaTime;
-            transform.Rotate(transform.up, rotateValue, Space.World);
+            transform.Rotate(Vector3.forward, rotateValue, Space.World);
         }
     }
 }
