@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class CloseGame : MonoBehaviour {
 
-	// Use this for initialization
+	void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("I CANT ESCAPE HELP!!!");
+            Application.Quit();
+
+        }
+
+    }
     public void Close()
     {
+        Debug.Log("I CANT ESCAPE HELP!!!");
         Application.Quit();
     }
 }
