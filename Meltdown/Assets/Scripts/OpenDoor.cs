@@ -5,13 +5,13 @@ using UnityEngine;
 public class OpenDoor : MonoBehaviour {
     public bool isOpen = false;
     public bool Open = false;
-    public Animator ani;
 
-	// Update is called once per frame
 	void onMouseOver()
     {
+        Debug.Log("MousedOver");
         if (Input.GetMouseButton(0)) {
-            ani.SetTrigger("OnDoorClick");
+            Debug.Log("Clicked!");
+            this.gameObject.transform.position = Vector3.up*3;
         }
     }
 }
